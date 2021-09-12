@@ -74,6 +74,5 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Success = false, Message = e.Message, stackTrace = e.StackTrace });
             }
         }
-
-    }
+     }
 }
