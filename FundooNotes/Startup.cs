@@ -62,6 +62,6 @@ namespace FundooNotes
             {
                 endpoints.MapControllers();
             });
-         }
+        }
     }
 }
