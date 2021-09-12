@@ -37,6 +37,7 @@ namespace RepositoryLayer.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Users");
+        
         }
     }
 }

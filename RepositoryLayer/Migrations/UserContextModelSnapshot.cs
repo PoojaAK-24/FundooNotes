@@ -53,6 +53,6 @@ namespace RepositoryLayer.Migrations
                     b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
-        }
+         }
     }
 }
