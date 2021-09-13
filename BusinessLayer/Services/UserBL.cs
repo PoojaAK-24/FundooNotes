@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer;
+using RepositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -37,11 +38,11 @@ namespace BusinessLayer.Services
             }
         }
 
-        public bool UserLogIn(LoginModel loginModel)
+        public User UserLogIn(LoginModel loginModel)
         {
             try
             {
-                return this._userRL.LoginUser(loginModel);
+                return _userRL.LoginUser(loginModel);
             }
             catch (Exception)
             {

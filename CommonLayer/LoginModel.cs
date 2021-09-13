@@ -7,9 +7,9 @@ namespace CommonLayer
 {
     public class LoginModel
     {
-        [Required]
+        [Required(ErrorMessage = "Email Id is required")]
         public string email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         public string password { get; set; }
      }
 }

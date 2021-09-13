@@ -33,19 +33,15 @@ namespace BusinessLayer.Services
             }
         }
 
-        public bool LoginUser(LoginModel loginModel)
+        public User LoginUser(LoginModel loginModel)
         {
             try
             {
-                var result = _userContext.Users.SingleOrDefault(e => e.Email == loginModel.email && e.Password == loginModel.password);
-                if (result == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                User resultData = _userContext.Users.SingleOrDefault(e =>
+                           e.Email == loginModel.email
+                           && e.Password == loginModel.password);
+
+                return resultData;
             }
             catch(Exception)
             {
