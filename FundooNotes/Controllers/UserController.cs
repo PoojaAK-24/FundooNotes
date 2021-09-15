@@ -104,6 +104,6 @@ namespace FundooNotes.Controllers
               signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
-         }
+        }
     }
 }
