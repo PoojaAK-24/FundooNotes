@@ -21,5 +21,6 @@ namespace CommonLayer
         public bool isTrash { get; set; }
 
         public bool isPin { get; set; }
+    
     }
 }
