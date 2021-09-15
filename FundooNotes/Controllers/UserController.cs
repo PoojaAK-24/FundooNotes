@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
+    [Authorize]
     [Route("api/User")]
     [ApiController]
     public class UserController : ControllerBase
@@ -29,14 +30,13 @@ namespace FundooNotes.Controllers
         }
         
         [HttpGet]
-        [Authorize]
         public IActionResult getAllUsers()
         {
             var useList = this._userBL.getAllUsers();
             return this.Ok(new { Success = true, message = "Get User Data SuccessFully.", Data = useList });
         }
 
-        
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult RegisterUser(UserModel userModel)
         {
