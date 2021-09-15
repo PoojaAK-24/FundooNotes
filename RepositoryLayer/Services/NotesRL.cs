@@ -51,7 +51,6 @@ namespace RepositoryLayer.Services
             }
         }
 
-
         public List<Notes> GetAllNotes()
         {
             try
