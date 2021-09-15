@@ -116,6 +116,8 @@ namespace RepositoryLayer.Migrations
                     b.Navigation("Notes");
                 });
 #pragma warning restore 612, 618
+        
+       
         }
     }
 }
