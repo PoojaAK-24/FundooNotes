@@ -20,6 +20,6 @@ namespace RepositoryLayer.Context
             builder.Entity<User>(entity => {
                 entity.HasIndex(e => e.Email).IsUnique();
             });
-         }
+        }
     }
 }
