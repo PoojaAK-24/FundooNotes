@@ -11,5 +11,5 @@ namespace BusinessLayer.Interface
         List<UserModel> getAllUsers();
         bool RegisterUser(UserModel userModel);
         User UserLogIn(LoginModel loginModel);
-    }
+     }
 }
