@@ -110,7 +110,7 @@ namespace FundooNotes.Controllers
             catch (Exception e)
             {
                 return this.BadRequest(new { success = false, message = e.Message, stackTrace = e.StackTrace });
-            }
+             }
 
         }
     }
