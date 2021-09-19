@@ -12,5 +12,5 @@ namespace CommonLayer
         [EmailAddress]
         public string Email { get; set; }
    
-    }
+   }
 }
