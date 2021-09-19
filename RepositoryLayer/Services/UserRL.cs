@@ -5,6 +5,7 @@ using RepositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace BusinessLayer.Services
 {
@@ -17,6 +18,8 @@ namespace BusinessLayer.Services
             this._userContext = userContext;
         }
 
+
+
         public List<UserModel> getAllUsers()
         {
             try
@@ -27,7 +30,7 @@ namespace BusinessLayer.Services
 
                 return userModels;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
@@ -43,11 +46,12 @@ namespace BusinessLayer.Services
 
                 return resultData;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
             }
         }
+
 
         public bool RegisterUser(UserModel userModel)
         {
@@ -75,6 +79,42 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-       
-     }
+
+        public User ForgotPassword(ForgotPasswordModel forgotPasswordModel)
+        {
+            try
+            {
+                var result = _userContext.Users.SingleOrDefault(e => e.Email == forgotPasswordModel.Email);
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public User ResetPassword(ResetPasswordModel resetPasswordModel, long UserId)
+        {
+            try
+            {
+                var result = _userContext.Users.SingleOrDefault(e => e.Id == UserId);
+
+                if (result != null)
+                {
+                    result.Password = resetPasswordModel.Password;
+                    result.ModifiedAt = DateTime.Now;
+                    _userContext.SaveChanges();
+                }
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
+    
 }
+

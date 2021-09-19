@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace CommonLayer
@@ -15,7 +16,6 @@ namespace CommonLayer
         public string Color { get; set; }
 
         public string image { get; set; }
-
         public bool isArchive { get; set; }
 
         public bool isTrash { get; set; }

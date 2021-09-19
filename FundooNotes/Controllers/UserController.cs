@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer;
+using CommonLayer.MSMQ;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -71,7 +72,7 @@ namespace FundooNotes.Controllers
             {
                 IActionResult response = Unauthorized();
                 User user = _userBL.UserLogIn(loginModel);
-                //bool result = true;
+                
                 if (user != null)
                 {
                     var tokenString = GenerateJSONWebToken(user.Id, user.Email);
@@ -87,6 +88,74 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { Success = false, Message = e.Message, stackTrace = e.StackTrace });
             }
         }
+        private long GetTokenId()
+        {
+            long userId = Convert.ToInt64(User.FindFirst("Id").Value);
+            return userId;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("ForgotPassword")]
+        public IActionResult ForgotPassword(ForgotPasswordModel forgotPasswordModel)
+        {
+            try
+            {
+                User user = _userBL.ForgotPassword(forgotPasswordModel);
+
+                if (user != null)
+                {
+                    string tokenString = GenerateJSONWebToken(user.Id, user.Email);
+
+                    new msmqOperation().SendingData(tokenString);
+
+                    return Ok(new { Success = true, message = "Successfull." });
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "Unsuccessfull." });
+                }
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(new { success = false, message = e.Message, stackTrace = e.StackTrace });
+            }
+        }
+
+        [Authorize]
+        [HttpPut("ResetPassword")]
+        public IActionResult ResetPassword(ResetPasswordModel resetPasswordModel)
+        {
+            try
+            {
+                if (resetPasswordModel.Password == resetPasswordModel.ConfirmPassword)
+                {
+                    long UserId = GetTokenId();
+                    User user = _userBL.ResetPassword(resetPasswordModel, UserId);
+
+                    if (user != null)
+                    {
+                        return this.Ok(new { Success = true, message = "Password Changed Successfully." });
+                    }
+                    else
+                    {
+                        return this.BadRequest(new { Success = false, message = "Something went wrong." });
+                    }
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "Password should be same." });
+                }
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { success = false, message = e.Message, stackTrace = e.StackTrace });
+            }
+        }
+
+
+
         private string GenerateJSONWebToken(long Id, String email)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -100,7 +169,7 @@ namespace FundooNotes.Controllers
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
               _config["Jwt:Issuer"],
              Claims,
-              expires: DateTime.Now.AddMinutes(60),
+              expires: DateTime.Now.AddMinutes(120),
               signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

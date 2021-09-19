@@ -8,13 +8,18 @@ namespace RepositoryLayer.Interface
 {
     public interface INotesRL
     {
-        List<Notes> GetAllNotes();
+        List<Notes> GetAllNotes(long userId);
 
-        bool AddNotes(NotesModel notesModel, long Id);
+        public bool AddNotes(NotesModel notesModel, long Id);
 
-        bool DeleteNotes(long id, long userId);
+        public bool DeleteNotes(long id, long userId);
 
-        bool UpdateNotes(long id, long userId, NotesModel notesModel);
-    
+        public bool UpdateNotes(long id, long userId, NotesModel notesModel);
+        public bool ChangeColor(long noteId, long userId, NotesModel notesModel);
+        public bool IsPinned(long noteId, long userId);
+        public bool IsArchive(long noteId,long userId,bool value);
+        public bool IsTrash(long noteId,long userId,bool value);
+
+
     }
 }

@@ -51,11 +51,11 @@ namespace RepositoryLayer.Services
             }
         }
 
-        public List<Notes> GetAllNotes()
+        public List<Notes> GetAllNotes(long userId)
         {
             try
             {
-                var result = _userContext.Notes.ToList();
+                var result = _userContext.Notes.Where(e => e.UserId == userId).ToList();
 
                 return result;
             }
@@ -122,6 +122,124 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
+        public bool ChangeColor(long noteId, long userId, NotesModel notesModel)
+        {
+            try
+            {
+                var result = _userContext.Notes.FirstOrDefault(e => e.Id == noteId && e.UserId == userId);
+
+                if (result != null)
+                {
+                    result.Color = notesModel.Color;
+                    result.ModifiedAt = DateTime.Now;
+                }
+                int changes = _userContext.SaveChanges();
+
+                if (changes > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool IsPinned(long noteId, long userId)
+        {
+            try
+            {
+                var result = _userContext.Notes.FirstOrDefault(e => e.Id == noteId && e.UserId == userId);
+
+                if (result != null)
+                {
+                        if (result.isPin == true)
+                        {
+                            result.isPin = false;
+                            this._userContext.SaveChanges();
+                            return true;
+                        }
+                        else
+                        {
+                            result.isPin = true;
+                            this._userContext.SaveChanges();
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            
+
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        
+
+        public bool IsArchive(long noteId,long userId,bool value)
+        {
+            try
+            {
+
+                var result = _userContext.Notes.FirstOrDefault(e => e.Id == noteId && e.UserId == userId);
+
+                if (result != null)
+                {
+                    if (result.isArchive != value)
+                    {
+                        result.isArchive = value;
+                    }
+                    result.ModifiedAt = DateTime.Now;
+                }
+                int changes = _userContext.SaveChanges();
+
+                if (changes > 0)
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        public bool IsTrash(long noteId,long userId,bool value)
+        {
+            try
+            {
+                var result = _userContext.Notes.FirstOrDefault(e => e.Id == noteId && e.UserId == userId);
+
+                if (result != null)
+                {
+                    if (result.isTrash != value)
+                    {
+                        result.isTrash = value;
+                    }
+                    result.ModifiedAt = DateTime.Now;
+                }
+                int changes = _userContext.SaveChanges();
+
+                if (changes > 0)
+                {
+                    return true;
+                }
+                else { return false; }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }
+       
 

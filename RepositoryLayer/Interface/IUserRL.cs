@@ -11,6 +11,9 @@ namespace BusinessLayer.Interface
         List<UserModel> getAllUsers();
         bool RegisterUser(UserModel userModel);
         User LoginUser(LoginModel loginModel);
-    
+        User ForgotPassword(ForgotPasswordModel forgotpasswordModel);
+        User ResetPassword(ResetPasswordModel resetpasswordModel, long UserId);
+
+
     }
 }
