@@ -22,5 +22,5 @@ namespace CommonLayer
 
         public bool isPin { get; set; }
     
-    }
+     }
 }
