@@ -77,7 +77,7 @@ namespace CommonLayer.MSMQ
             {
                 UserName = "pooja12reddy@gmail.com",
                 Password = "pooja8880422433"
-            };
+             };
 
             smtpClient.EnableSsl = true;
             smtpClient.Send(mailMessage);
