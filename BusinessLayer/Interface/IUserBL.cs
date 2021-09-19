@@ -13,5 +13,5 @@ namespace BusinessLayer.Interface
         User UserLogIn(LoginModel loginModel);
         User ForgotPassword(ForgotPasswordModel forgotpasswordModel);
         User ResetPassword(ResetPasswordModel resetpasswordModel,long UserId);
-    }
+     }
 }
