@@ -16,5 +16,5 @@ namespace CommonLayer
         [Required(ErrorMessage = "Confirm Password is required.")]
         public string ConfirmPassword { get; set; }
 
-    }
+   }
 }
