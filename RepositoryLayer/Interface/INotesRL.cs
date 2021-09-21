@@ -22,7 +22,5 @@ namespace RepositoryLayer.Interface
         List<Notes> GetTrash(long userId);
 
         List<Notes> GetArchived(long userId);
-
-
     }
 }
