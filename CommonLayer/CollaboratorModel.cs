@@ -10,6 +10,7 @@ namespace CommonLayer
     {
         
         public string CollaboratorEmailId { get; set; }
+    
     }
 }
 
