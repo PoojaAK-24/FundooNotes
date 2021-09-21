@@ -23,8 +23,6 @@ namespace RepositoryLayer.Entity
         public virtual User User { get; set; }
    
         public string CollaboratorEmail{ get; set; }
-
-
    }
 
 }
