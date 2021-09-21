@@ -88,11 +88,11 @@ namespace BusinessLayer.Services
             }
         }
 
-        public bool IsArchive( long noteId,long userId, bool value)
+        public bool IsArchive( long noteId,long userId)
         {
             try
             {
-                return this._notesRL.IsArchive(noteId, userId, value);
+                return this._notesRL.IsArchive(noteId, userId);
             }
             catch (Exception)
             {
@@ -100,11 +100,34 @@ namespace BusinessLayer.Services
             }
         }
 
-        public bool IsTrash(long noteId,long userId, bool value)
+        public bool IsTrash(long noteId,long userId)
         {
             try
             {
-                return this._notesRL.IsTrash(noteId,userId,value);
+                return this._notesRL.IsTrash(noteId,userId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public List<Notes> GetTrash(long userId)
+        {
+            try
+            {
+                return _notesRL.GetTrash(userId);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<Notes> GetArchived(long userId)
+        {
+            try
+            {
+                return _notesRL.GetArchived(userId);
             }
             catch (Exception)
             {

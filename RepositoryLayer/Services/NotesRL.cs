@@ -182,28 +182,26 @@ namespace RepositoryLayer.Services
         }
         
 
-        public bool IsArchive(long noteId,long userId,bool value)
+        public bool IsArchive(long noteId,long userId)
         {
             try
             {
-
                 var result = _userContext.Notes.FirstOrDefault(e => e.Id == noteId && e.UserId == userId);
 
                 if (result != null)
                 {
-                    if (result.isArchive != value)
-                    {
-                        result.isArchive = value;
-                    }
+                    result.isArchive = true;
+                    result.isTrash = false;
+
                     result.ModifiedAt = DateTime.Now;
                 }
                 int changes = _userContext.SaveChanges();
 
                 if (changes > 0)
-                {
                     return true;
-                }
-                else { return false; }
+
+                else
+                    return false;
             }
             catch (Exception)
             {
@@ -212,7 +210,7 @@ namespace RepositoryLayer.Services
         }
 
 
-        public bool IsTrash(long noteId,long userId,bool value)
+        public bool IsTrash(long noteId,long userId)
         {
             try
             {
@@ -220,19 +218,47 @@ namespace RepositoryLayer.Services
 
                 if (result != null)
                 {
-                    if (result.isTrash != value)
-                    {
-                        result.isTrash = value;
-                    }
+                    result.isTrash = true;
+                    result.isArchive = false;
+
                     result.ModifiedAt = DateTime.Now;
                 }
                 int changes = _userContext.SaveChanges();
 
                 if (changes > 0)
-                {
-                    return true;
+                { return true; }
+
+                else
+                { 
+                    return false;
                 }
-                else { return false; }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public List<Notes> GetTrash(long userId)
+        {
+            try
+            {
+                var result = _userContext.Notes.Where(e => e.UserId == userId && e.isTrash == true).ToList();
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<Notes> GetArchived(long userId)
+        {
+            try
+            {
+                var result = _userContext.Notes.Where(e => e.UserId == userId && e.isArchive == true).ToList();
+
+                return result;
             }
             catch (Exception)
             {

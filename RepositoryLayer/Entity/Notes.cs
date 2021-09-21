@@ -37,5 +37,6 @@ namespace RepositoryLayer.Entity
         public long UserId { get; set; }
 
         public virtual User User { get; set; }
-     }
+        public List<Collaboration> collaborations { get; set; }
+    }
 }

@@ -38,7 +38,7 @@ namespace FundooNotes.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("register")]
         public IActionResult RegisterUser(UserModel userModel)
         {
             try

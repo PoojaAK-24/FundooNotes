@@ -17,8 +17,11 @@ namespace RepositoryLayer.Interface
         public bool UpdateNotes(long id, long userId, NotesModel notesModel);
         public bool ChangeColor(long noteId, long userId, NotesModel notesModel);
         public bool IsPinned(long noteId, long userId);
-        public bool IsArchive(long noteId,long userId,bool value);
-        public bool IsTrash(long noteId,long userId,bool value);
+        public bool IsArchive(long noteId,long userId);
+        public bool IsTrash(long noteId,long userId);
+        List<Notes> GetTrash(long userId);
+
+        List<Notes> GetArchived(long userId);
 
 
     }

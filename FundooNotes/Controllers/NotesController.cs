@@ -115,7 +115,7 @@ namespace FundooNotes.Controllers
         }
 
 
-        [HttpPut("ChangeColor")]
+        [HttpPut("Color")]
         public IActionResult ChangeColor(long noteId, NotesModel notesModel)
         {
             long userId = GetTokenId();
@@ -138,7 +138,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpPut("isPinned/{noteId}")]
+        [HttpPut("Pinned")]
         public IActionResult IsPinned(long noteId)
         {
             long userId = GetTokenId();
@@ -161,14 +161,14 @@ namespace FundooNotes.Controllers
             }
         }
         [HttpPut]
-        [Route("isArchive/{noteId}")]
-        public IActionResult IsArchive(long noteId, bool value)
+        [Route("Archive")]
+        public IActionResult IsArchive(long noteId)
         {
 
             try
             {
                 long userId = GetTokenId();
-                bool result = _notesBL.IsArchive(noteId, userId, value);
+                bool result = _notesBL.IsArchive(noteId, userId);
 
                 if (result == true)
                 {
@@ -192,14 +192,14 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("isTrash/{noteId}")]
-        public IActionResult IsTrash(long noteId, bool value)
+        [Route("Trash")]
+        public IActionResult IsTrash(long noteId)
         {
             try
             {
 
                 long userId = GetTokenId();
-                bool result = _notesBL.IsTrash(noteId, userId, value);
+                bool result = _notesBL.IsTrash(noteId, userId);
 
                 if (result == true)
                 {
@@ -220,6 +220,61 @@ namespace FundooNotes.Controllers
                 });
              }
 
+        }
+        [HttpGet]
+        [Route("Archived")]
+        public IActionResult GetArchived()
+        {
+            try
+            {
+                long userId = GetTokenId();
+                var archivedList = _notesBL.GetArchived(userId);
+
+                if (archivedList.Count != 0)
+                {
+                    return this.Ok(new { Success = true, message = "These are your Archived Notes", Data = archivedList });
+                }
+                else if (archivedList.Count == 0)
+                {
+                    return BadRequest(new { Success = false, message = "Archived notes empty" });
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "Something went wrong." });
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Success = false, message = e.Message, stackTrace = e.StackTrace });
+            }
+        }
+
+        [HttpGet]
+        [Route("Trashed")]
+        public IActionResult GetTrash()
+        {
+            try
+            {
+                long userId = GetTokenId();
+                var trashList = _notesBL.GetTrash(userId);
+
+                if (trashList.Count != 0)
+                {
+                    return this.Ok(new { Success = true, message = "These are your Trash Notes.", Data = trashList });
+                }
+                else if (trashList.Count == 0)
+                {
+                    return BadRequest(new { Success = false, message = "trashed notes empty" });
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "Something went wrong." });
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Success = false, message = e.Message, stackTrace = e.StackTrace });
+            }
         }
 
     }
