@@ -274,6 +274,7 @@ namespace FundooNotes.Controllers
             catch (Exception e)
             {
                 return BadRequest(new { Success = false, message = e.Message, stackTrace = e.StackTrace });
+            
             }
         }
 
