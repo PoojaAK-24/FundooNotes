@@ -98,8 +98,6 @@ namespace FundooNotes.Controllers
                 return BadRequest(new { success = false, message = e.Message, stackTrace = e.StackTrace });
             }
         }
-
-
     }
 }
 
