@@ -12,5 +12,5 @@ namespace RepositoryLayer.Interface
         List<Collaboration> GetCollaborator(long noteId, long userId);
         bool RemoveCollaborator(string collaboratorEmailId, long noteId, long userId);
 
-    }
+     }
 }
