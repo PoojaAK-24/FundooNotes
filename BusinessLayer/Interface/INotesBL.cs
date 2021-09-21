@@ -24,5 +24,5 @@ namespace BusinessLayer.Interface
 
         List<Notes> GetArchived(long userId);
 
-    }
+     }
 }
