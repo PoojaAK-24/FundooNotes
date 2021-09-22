@@ -1,4 +1,5 @@
 ﻿using Experimental.System.Messaging;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -11,9 +12,14 @@ namespace CommonLayer.MSMQ
     public class msmqOperation
     {
         MessageQueue msmq = new MessageQueue();
+        private IConfiguration _config;
+        public msmqOperation(IConfiguration config)
+        {
+            _config = config;
+        }
         public void SendingData(string token)
         {
-            msmq.Path = @".\private$\tohenQueue";
+            msmq.Path = @".\private$\tokenQueue";
 
             if (!MessageQueue.Exists(msmq.Path))
             {
@@ -71,13 +77,12 @@ namespace CommonLayer.MSMQ
             mailMessage.Body = body.ToString();
             mailMessage.IsBodyHtml = true;
 
-            SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587);
-
+            SmtpClient smtpClient = new SmtpClient(_config["Smtp:Host"], Convert.ToInt32(_config["Smtp:Port"]));
             smtpClient.Credentials = new NetworkCredential()
             {
-                UserName = "pooja12reddy@gmail.com",
-                Password = "pooja8880422433"
-             };
+                UserName = _config["Smtp:Username"],
+                Password = _config["Smtp:Password"]
+            };
 
             smtpClient.EnableSsl = true;
             smtpClient.Send(mailMessage);

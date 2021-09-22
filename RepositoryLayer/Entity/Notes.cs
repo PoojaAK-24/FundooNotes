@@ -17,7 +17,7 @@ namespace RepositoryLayer.Entity
 
         public string Message { get; set; }
 
-        public DateTime Remainder { get; set; }
+        public DateTime? Remainder { get; set; }
 
         public string Color { get; set; }
 

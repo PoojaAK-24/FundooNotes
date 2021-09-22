@@ -17,6 +17,19 @@ namespace RepositoryLayer.Services
         {
             _userContext = userContext;
         }
+        public List<Notes> GetAllNotes(long userId)
+        {
+            try
+            {
+                var result = _userContext.Notes.Where(e => e.UserId == userId).ToList();
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public bool AddNotes(NotesModel notesModel, long userId)
         {
@@ -43,45 +56,9 @@ namespace RepositoryLayer.Services
                 {
                     return true;
                 }
-                else { return false; }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public List<Notes> GetAllNotes(long userId)
-        {
-            try
-            {
-                var result = _userContext.Notes.Where(e => e.UserId == userId).ToList();
-
-                return result;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public bool DeleteNotes(long id, long userId)
-        {
-            try
-            {
-                var result = _userContext.Notes.FirstOrDefault(e => e.Id == id && e.UserId == userId);
-
-                if (result != null)
-                {
-
-                    _userContext.Notes.Remove(result);
-                    _userContext.SaveChanges();
-
-                    return true;
-                }
-                else
-                {
-                    return false;
+                else 
+                { 
+                    return false; 
                 }
             }
             catch (Exception)
@@ -114,6 +91,96 @@ namespace RepositoryLayer.Services
                 }
                 else
                 {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool DeleteNotes(long id, long userId)
+        {
+            try
+            {
+                var result = _userContext.Notes.FirstOrDefault(e => e.Id == id && e.UserId == userId);
+
+                if (result != null)
+                {
+
+                    _userContext.Notes.Remove(result);
+                    _userContext.SaveChanges();
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool IsTrash(long noteId, long userId)
+        {
+            try
+            {
+                var result = _userContext.Notes.FirstOrDefault(e => e.Id == noteId && e.UserId == userId);
+
+                if (result != null)
+                {
+                    result.isTrash = true;
+                    result.isArchive = false;
+
+                    result.ModifiedAt = DateTime.Now;
+                }
+                int changes = _userContext.SaveChanges();
+
+                if (changes > 0)
+                { return true; }
+
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public List<Notes> GetTrash(long userId)
+        {
+            try
+            {
+                var result = _userContext.Notes.Where(e => e.UserId == userId && e.isTrash == true).ToList();
+
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public bool EmptyTrash(long userId)
+        {
+            try
+            {
+                var result = _userContext.Notes.Where(notes => notes.isTrash == true && notes.UserId == userId).ToList();
+
+                if (result.Count > 0)
+                {
+                    _userContext.Notes.RemoveRange(result);
+                    _userContext.SaveChanges();
+
+                    return true;
+                }
+                else
+                { 
                     return false;
                 }
             }
@@ -208,50 +275,6 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-
-
-        public bool IsTrash(long noteId,long userId)
-        {
-            try
-            {
-                var result = _userContext.Notes.FirstOrDefault(e => e.Id == noteId && e.UserId == userId);
-
-                if (result != null)
-                {
-                    result.isTrash = true;
-                    result.isArchive = false;
-
-                    result.ModifiedAt = DateTime.Now;
-                }
-                int changes = _userContext.SaveChanges();
-
-                if (changes > 0)
-                { return true; }
-
-                else
-                { 
-                    return false;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        public List<Notes> GetTrash(long userId)
-        {
-            try
-            {
-                var result = _userContext.Notes.Where(e => e.UserId == userId && e.isTrash == true).ToList();
-
-                return result;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public List<Notes> GetArchived(long userId)
         {
             try
@@ -265,7 +288,125 @@ namespace RepositoryLayer.Services
                 throw;
              }
         }
+        public bool UnArchive(long noteId, long userId)
+        {
+            try
+            {
+                var result = _userContext.Notes.FirstOrDefault(e => e.Id == noteId && e.UserId == userId);
+
+                if (result != null)
+                {
+                    result.isArchive = false;
+                    result.isTrash = false;
+
+                    result.ModifiedAt = DateTime.Now;
+                }
+                int changes = _userContext.SaveChanges();
+
+                if (changes > 0) return true;
+
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public bool Restore(long noteId, long userId)
+        {
+            try
+            {
+                var result = _userContext.Notes.FirstOrDefault(e => e.Id == noteId && e.UserId == userId);
+
+                if (result != null)
+                {
+                    result.isTrash = false;
+                    result.isArchive = false;
+
+                    result.ModifiedAt = DateTime.Now;
+                }
+                int changes = _userContext.SaveChanges();
+
+                if (changes > 0) 
+                { 
+                    return true; 
+                }
+
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool AddRemainder(long noteId, long userId, DateTime dateTime)
+        {
+            try
+            {
+                var result = _userContext.Notes.FirstOrDefault(e => e.Id == noteId && e.UserId == userId && e.Remainder == null);
+
+                if (result != null)
+                {
+                    result.Remainder = dateTime;
+
+                    result.ModifiedAt = DateTime.Now;
+                }
+                int changes = _userContext.SaveChanges();
+
+                if (changes > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
+
+        public bool DeleteRemainder(long noteId, long userId)
+        {
+            try
+            {
+                var result = _userContext.Notes.FirstOrDefault(e => e.Id == noteId && e.UserId == userId && e.Remainder != null);
+
+                if (result != null)
+                {
+                    result.Remainder = null;
+
+                    result.ModifiedAt = DateTime.Now;
+                }
+                int changes = _userContext.SaveChanges();
+
+                if (changes > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+        }
     }
+    
 }
        
 

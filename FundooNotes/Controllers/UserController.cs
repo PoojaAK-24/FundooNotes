@@ -106,7 +106,7 @@ namespace FundooNotes.Controllers
                 {
                     string tokenString = GenerateJSONWebToken(user.Id, user.Email);
 
-                    new msmqOperation().SendingData(tokenString);
+                    new msmqOperation(_config).SendingData(tokenString);
 
                     return Ok(new { Success = true, message = "Successfull." });
                 }
