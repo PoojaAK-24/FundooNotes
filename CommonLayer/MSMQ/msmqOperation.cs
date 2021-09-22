@@ -86,6 +86,7 @@ namespace CommonLayer.MSMQ
 
             smtpClient.EnableSsl = true;
             smtpClient.Send(mailMessage);
+        
         }
     }
 }
