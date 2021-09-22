@@ -26,5 +26,6 @@ namespace RepositoryLayer.Interface
         public bool AddRemainder(long noteId, long userId, DateTime dateTime);
         public bool DeleteRemainder(long noteId, long userId);
 
+   
     }
 }
