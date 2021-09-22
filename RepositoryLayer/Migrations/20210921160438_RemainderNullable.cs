@@ -27,6 +27,7 @@ namespace RepositoryLayer.Migrations
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2",
                 oldNullable: true);
+       
         }
     }
 }
