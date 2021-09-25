@@ -30,15 +30,10 @@ namespace FundooNotes.Controllers
             this._config = config;
         }
         
-        [HttpGet]
-        public IActionResult getAllUsers()
-        {
-            var useList = this._userBL.getAllUsers();
-            return this.Ok(new { Success = true, message = "Get User Data SuccessFully.", Data = useList });
-        }
+       
 
         [AllowAnonymous]
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public IActionResult RegisterUser(UserModel userModel)
         {
             try

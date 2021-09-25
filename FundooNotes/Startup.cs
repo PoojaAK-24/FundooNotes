@@ -47,6 +47,9 @@ namespace FundooNotes
             services.AddTransient<ICollaboratorBL, CollaboratorBL>();
             services.AddTransient<ICollaboratorRL, CollaboratorRL>();
 
+            services.AddTransient<ILabelBL, LabelBL>();
+            services.AddTransient<ILabelRL, LabelRL>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {

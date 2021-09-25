@@ -1,4 +1,8 @@
-﻿using CommonLayer;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CommonLayer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entity;
 using RepositoryLayer.Interface;
@@ -12,10 +16,12 @@ namespace RepositoryLayer.Services
     public class NotesRL : INotesRL
     {
         private UserContext _userContext;
+        private IConfiguration configuration;
 
-        public NotesRL(UserContext userContext)
+        public NotesRL(UserContext userContext, IConfiguration configuration)
         {
             _userContext = userContext;
+            this.configuration = configuration;
         }
         public List<Notes> GetAllNotes(long userId)
         {
@@ -56,9 +62,9 @@ namespace RepositoryLayer.Services
                 {
                     return true;
                 }
-                else 
-                { 
-                    return false; 
+                else
+                {
+                    return false;
                 }
             }
             catch (Exception)
@@ -180,7 +186,7 @@ namespace RepositoryLayer.Services
                     return true;
                 }
                 else
-                { 
+                {
                     return false;
                 }
             }
@@ -225,31 +231,31 @@ namespace RepositoryLayer.Services
 
                 if (result != null)
                 {
-                        if (result.isPin == true)
-                        {
-                            result.isPin = false;
-                            this._userContext.SaveChanges();
-                            return true;
-                        }
-                        else
-                        {
-                            result.isPin = true;
-                            this._userContext.SaveChanges();
-                            return true;
-                        }
+                    if (result.isPin == true)
+                    {
+                        result.isPin = false;
+                        this._userContext.SaveChanges();
+                        return true;
                     }
-                    return false;
+                    else
+                    {
+                        result.isPin = true;
+                        this._userContext.SaveChanges();
+                        return true;
+                    }
                 }
-            
+                return false;
+            }
+
 
             catch (Exception)
             {
                 throw;
-             }
+            }
         }
-        
 
-        public bool IsArchive(long noteId,long userId)
+
+        public bool IsArchive(long noteId, long userId)
         {
             try
             {
@@ -286,7 +292,7 @@ namespace RepositoryLayer.Services
             catch (Exception)
             {
                 throw;
-             }
+            }
         }
         public bool UnArchive(long noteId, long userId)
         {
@@ -330,9 +336,9 @@ namespace RepositoryLayer.Services
                 }
                 int changes = _userContext.SaveChanges();
 
-                if (changes > 0) 
-                { 
-                    return true; 
+                if (changes > 0)
+                {
+                    return true;
                 }
 
                 else
@@ -402,12 +408,56 @@ namespace RepositoryLayer.Services
             catch (Exception)
             {
                 throw;
-           
+
             }
 
         }
+        public bool AddImage(long noteId, IFormFile image)
+        {
+            try
+            {
+                var noteData = this._userContext.Notes.Find(noteId);
+                if (noteData != null)
+                {
+                    Account account = new Account(configuration["CloudinaryAccount:CloudName"], configuration["CloudinaryAccount:ApiKey"], configuration["CloudinaryAccount:ApiSecret"]);
+                    Cloudinary cloudinary = new Cloudinary(account);
+                    ImageUploadParams uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(image.FileName, image.OpenReadStream())
+                    };
+                    var uploadResult = cloudinary.Upload(uploadParams);
+                    noteData.image = uploadResult.Url.ToString();
+                    this._userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool RemoveImage(long noteId)
+        {
+            try
+            {
+                var noteData = this._userContext.Notes.Find(noteId);
+                if (noteData != null)
+                {
+                    noteData.image = null;
+                    this._userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
-    
 }
+    
        
 

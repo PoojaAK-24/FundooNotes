@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 namespace FundooNotes.Controllers
 {
     [Authorize]
-    [Route("notes")]
+    [Route("Notes")]
     [ApiController]
     public class NoteController : ControllerBase
     {
@@ -27,7 +28,7 @@ namespace FundooNotes.Controllers
             return userId;
         }
 
-        [HttpGet("GetNotes")]
+        [HttpGet]
         public IActionResult GetNotes()
         {
             try
@@ -43,7 +44,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpPost("AddNote")]
+        [HttpPost]
         public IActionResult AddNote(NotesModel notesModel)
         {
             try
@@ -90,7 +91,7 @@ namespace FundooNotes.Controllers
 
         }
         
-        [HttpDelete("DeleteNotes")]
+        [HttpDelete]
         public IActionResult DeleteNotes(long id)
         {
             try
@@ -157,7 +158,7 @@ namespace FundooNotes.Controllers
 
                 if (trashList.Count != 0)
                 {
-                    return this.Ok(new { Success = true, message = "These are your Trash Notes.", Data = trashList });
+                    return this.Ok(new { Success = true, message = "These are your Trashed Notes.", Data = trashList });
                 }
                 else if (trashList.Count == 0)
                 {
@@ -214,7 +215,7 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return BadRequest(new { Success = false, message = "Color changed unsuccessfull" });
+                    return BadRequest(new { Success = false, message = "Color change unsuccessfull" });
                 }
             }
             catch (Exception e)
@@ -223,7 +224,7 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpPut("Pinned")]
+        [HttpPut("Pin")]
         public IActionResult IsPinned(long noteId)
         {
             long userId = GetTokenId();
@@ -355,7 +356,7 @@ namespace FundooNotes.Controllers
             }
         }
         [HttpPut]
-        [Route("AddRemainder")]
+        [Route("Reminder")]
         public IActionResult AddRemainder(long noteId)
         {
             try
@@ -365,7 +366,7 @@ namespace FundooNotes.Controllers
 
                 if (result == true)
                 {
-                    return Ok(new { Success = true, message = "Remainder added Successfully." });
+                    return Ok(new { Success = true, message = "Reminder added Successfully." });
                 }
                 else
                 {
@@ -378,7 +379,7 @@ namespace FundooNotes.Controllers
             }
         }
         [HttpDelete]
-        [Route("DeleteRemainder")]
+        [Route("Reminder")]
         public IActionResult DeleteRemainder(long noteId)
         {
             try
@@ -388,17 +389,65 @@ namespace FundooNotes.Controllers
 
                 if (result == true)
                 {
-                    return Ok(new { Success = true, message = "Remainder deleted Successfully." });
+                    return Ok(new { Success = true, message = "Reminder deleted Successfully." });
                 }
                 else
                 {
-                    return BadRequest(new { Success = false, message = "Remainder deletion Unsuccessful" });
+                    return BadRequest(new { Success = false, message = "Reminder deletion Unsuccessful" });
                 }
             }
             catch (Exception e)
             {
                 return BadRequest(new { success = false, message = e.Message, stackTrace = e.StackTrace });
             
+            }
+        }
+        [HttpPost]
+        [Route("Image")]
+        public IActionResult AddImage(long noteId, IFormFile image)
+        {
+            try
+            {
+                long userId = GetTokenId();
+                bool result = _notesBL.AddImage(noteId, image);
+
+                if (result == true)
+                {
+                    return Ok(new { Success = true, message = "Image added Successfully." });
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "Unsuccessful" });
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { success = false, message = e.Message, stackTrace = e.StackTrace });
+
+            }
+        }
+        [HttpDelete]
+        [Route("Image")]
+        public IActionResult RemoveImage(long noteId)
+        {
+            try
+            {
+                long userId = GetTokenId();
+                bool result = _notesBL.RemoveImage(noteId);
+
+                if (result == true)
+                {
+                    return Ok(new { Success = true, message = "Image removed Successfully." });
+                }
+                else
+                {
+                    return BadRequest(new { Success = false, message = "Unsuccessful" });
+                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { success = false, message = e.Message, stackTrace = e.StackTrace });
+
             }
         }
     }

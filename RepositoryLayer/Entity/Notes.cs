@@ -38,6 +38,7 @@ namespace RepositoryLayer.Entity
 
         public virtual User User { get; set; }
         public List<Collaboration> collaborations { get; set; }
+        public List<Label> Labels { get; set; }
     
     }
 }

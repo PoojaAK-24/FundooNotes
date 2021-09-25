@@ -1,4 +1,5 @@
 ﻿using CommonLayer;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,9 @@ namespace RepositoryLayer.Interface
         public bool Restore(long noteId, long userId);
         public bool AddRemainder(long noteId, long userId, DateTime dateTime);
         public bool DeleteRemainder(long noteId, long userId);
+        public bool AddImage(long noteId, IFormFile image);
+        public bool RemoveImage(long noteId);
 
-   
+
     }
 }

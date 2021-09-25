@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CommonLayer;
+using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.Entity;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ namespace RepositoryLayer.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Notes> Notes { get; set; }
         public DbSet<Collaboration> collaborations { get; set; }
+        public DbSet<Label> Labels { get; set; }
+        
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

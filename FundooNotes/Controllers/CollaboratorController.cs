@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace FundooNotes.Controllers
 {
     [Authorize]
-    [Route("collaborator")]
+    [Route("Collaborator")]
     [ApiController]
     public class CollaboratorController : ControllerBase
     {
@@ -26,7 +26,7 @@ namespace FundooNotes.Controllers
             long userId = Convert.ToInt64(User.FindFirst("Id").Value);
             return userId;
         }
-        [HttpPost("AddCollaborator")]
+        [HttpPost]
         public IActionResult AddCollaborator(CollaboratorModel collaboratorModel,long noteId)
         {
             try
@@ -49,7 +49,6 @@ namespace FundooNotes.Controllers
             }
         }
         [HttpGet]
-        [Route("noteId/GetCollaborations")]
         public IActionResult GetCollaborator(long noteId)
         {
             try
@@ -76,7 +75,6 @@ namespace FundooNotes.Controllers
             }
         }
         [HttpDelete]
-        [Route("noteId/RemoveCollaborator")]
         public IActionResult RemoveCollaborator(long noteId, CollaboratorModel collaboratorModel)
         {
             try
