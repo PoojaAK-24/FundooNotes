@@ -116,7 +116,6 @@ namespace FundooNotes.Controllers
                 return BadRequest(new { success = false, message = e.Message, stackTrace = e.StackTrace });
             }
         }
-
         [Authorize]
         [HttpPut("ResetPassword")]
         public IActionResult ResetPassword(ResetPasswordModel resetPasswordModel)
