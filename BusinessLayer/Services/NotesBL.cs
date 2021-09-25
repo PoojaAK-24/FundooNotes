@@ -197,7 +197,6 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-
         public bool RemoveImage(long noteId)
         {
             try
