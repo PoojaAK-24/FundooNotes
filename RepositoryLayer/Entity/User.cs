@@ -26,7 +26,6 @@ namespace RepositoryLayer.Entity
         public List<Notes> Notes { get; set; }
         public List<Collaboration> collaborations { get; set; }
         public List<Label> Labels { get; set; }
-
     
     }
 }
