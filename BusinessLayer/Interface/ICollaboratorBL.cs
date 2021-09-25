@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ICollaboratorBL.cs" company="Company">
+// <copyright file="ICollaboratorBL.cs" company="BridgeLabz">
 // Copyright (c) Company. All rights reserved.
 // </copyright>
 // <author>Pooja Reddy</author>
