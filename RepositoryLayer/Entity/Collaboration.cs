@@ -24,5 +24,4 @@ namespace RepositoryLayer.Entity
    
         public string CollaboratorEmail{ get; set; }
    }
-
 }
