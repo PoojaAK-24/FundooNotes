@@ -122,7 +122,6 @@ namespace FundooNotes.Controllers
                 return BadRequest(new { Success = false, message = e.Message, stackTrace = e.StackTrace });
             }
         }
-
     }
 }
     
