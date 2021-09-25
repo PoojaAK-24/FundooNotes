@@ -12,11 +12,6 @@ namespace BusinessLayer.Interface
 
        List<Label> GetNoteLabels (long noteId, long userId);
        public bool EditLabelName(long labelId, long userId, LabelModel labelModel);
-
        public bool DeleteLabel(long userId, string labelName);
-
-
-
-
-    }
+   }
 }
