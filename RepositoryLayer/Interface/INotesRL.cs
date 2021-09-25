@@ -29,6 +29,5 @@ namespace RepositoryLayer.Interface
         public bool AddImage(long noteId, IFormFile image);
         public bool RemoveImage(long noteId);
 
-
     }
 }
