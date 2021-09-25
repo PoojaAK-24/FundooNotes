@@ -52,7 +52,6 @@ namespace BusinessLayer.Services
                 throw;
             }
         }
-
         public bool DeleteLabel(long userId, string labelName)
         {
             try
@@ -62,6 +61,7 @@ namespace BusinessLayer.Services
             catch (Exception)
             {
                 throw;
+            
             }
         }
     }
