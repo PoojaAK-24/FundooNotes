@@ -9,5 +9,5 @@ namespace CommonLayer
     {
         [Required]
         public string LabelName  { get; set; }
-    }
+   }
 }
