@@ -14,7 +14,5 @@ namespace RepositoryLayer.Interface
         public bool EditLabelName(long labelId, long userId, LabelModel labelModel);
 
         public bool DeleteLabel(long userId, string labelName);
-
-
     }
 }
