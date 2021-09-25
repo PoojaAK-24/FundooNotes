@@ -447,6 +447,7 @@ namespace RepositoryLayer.Services
                 {
                     noteData.image = null;
                     this._userContext.SaveChanges();
+                   
                     return true;
                 }
                 return false;
