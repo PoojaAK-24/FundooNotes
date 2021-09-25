@@ -14,7 +14,6 @@ namespace RepositoryLayer.Services
     {
         private UserContext _userContext;
 
-
         public CollaboratorRL(UserContext userContext)
         {
             this._userContext = userContext;
