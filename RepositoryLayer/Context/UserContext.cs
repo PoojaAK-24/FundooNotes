@@ -18,8 +18,6 @@ namespace RepositoryLayer.Context
         public DbSet<Collaboration> collaborations { get; set; }
         public DbSet<Label> Labels { get; set; }
         
-
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<User>(entity => {
